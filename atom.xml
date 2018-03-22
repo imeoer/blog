@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom">
+  <title>猫叔の杂记 · 手帐</title>
+  <id>http://www.inkpaper.io/blog</id>
+  <updated>2018-03-22T22:27:24+08:00</updated>
+  <subtitle>代码，美术，音乐与二次元</subtitle>
+  <link href="http://www.inkpaper.io/blog"></link>
+  <author>
+    <name>猫叔の杂记 · 手帐</name>
+  </author>
+  <entry>
+    <title>2016 年的一些小折腾</title>
+    <updated>2017-02-26T19:00:00+08:00</updated>
+    <id>tag:www.inkpaper.io,2017-02-26:/blog/2016-side-projects.html</id>
+    <content type="html">&lt;p&gt;2016 几乎一整年没有更新过博客，平时都在忙些什么呢？空闲时候偶尔会有一些奇怪想法，但大多数都在一开始就被否定，原因是觉得根本没有用处，造轮子是需要花时间的。如果的确有实际需要而没有特别好的现成品，我就会很兴奋，想马上就去实现，想比别人做的更好，更简单易用。希望以后依然能这样一直保持好奇与创作冲动，不枉自己喜欢过的那些电影，听过的音乐，还有一切美好。&lt;/p&gt;&#xA;</content>
+    <link href="http://www.inkpaper.io/blog/2016-side-projects.html"></link>
+    <author>
+      <name>猫叔</name>
+    </author>
+  </entry>
+  <entry>
+    <title>React.js生态系统概览 [译]</title>
+    <updated>2015-10-27T10:00:00+08:00</updated>
+    <id>tag:www.inkpaper.io,2015-10-27:/blog/navigating-the-react-ecosystem.html</id>
+    <content type="html"></content>
+    <link href="http://www.inkpaper.io/blog/navigating-the-react-ecosystem.html"></link>
+    <author>
+      <name>猫叔</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Linux下的Android刷机</title>
+    <updated>2015-09-26T10:00:00+08:00</updated>
+    <id>tag:www.inkpaper.io,2015-09-26:/blog/linux-android-adb.html</id>
+    <content type="html">&lt;p&gt;因为开发与日常用系统都是Linux，偶尔需要给自己的Android手机刷机，但国内各大论坛上给出的刷机工具大都是Windows版的，在虚拟机下操作又不太方便，于是打算在Linux下刷机，经过一时半会的折腾，记录下具体的操作步骤&lt;/p&gt;&#xA;</content>
+    <link href="http://www.inkpaper.io/blog/linux-android-adb.html"></link>
+    <author>
+      <name>猫叔</name>
+    </author>
+  </entry>
+  <entry>
+    <title>读书笔记 - 《Understanding ECMAScript 6》</title>
+    <updated>2015-09-18T10:00:00+08:00</updated>
+    <id>tag:www.inkpaper.io,2015-09-18:/blog/understanding-es6.html</id>
+    <content type="html">&lt;p&gt;《Understanding ECMAScript 6》是一本在Leanpub发售的开源电子书，较为详细的介绍了ES5的一些不足与在ES6中的改进以及新特性，计划慢慢读完这本书，在这里做一些笔记&lt;/p&gt;&#xA;</content>
+    <link href="http://www.inkpaper.io/blog/understanding-es6.html"></link>
+    <author>
+      <name>猫叔</name>
+    </author>
+  </entry>
+  <entry>
+    <title>一个写作与阅读平台的设计，初版纸小墨</title>
+    <updated>2015-09-26T13:00:00+08:00</updated>
+    <id>tag:www.inkpaper.io,2015-09-26:/blog/inkpaper-project.html</id>
+    <content type="html">&lt;p&gt;2014年上半年，我和同班毕业的小伙伴发起了一个业余小组的内容发布平台项目。创建一个类似Medium、简书的写作与阅读平台，专注改善文章撰写、阅读的交互体验，优化知识类文章发布与分享方式&lt;/p&gt;&#xA;</content>
+    <link href="http://www.inkpaper.io/blog/inkpaper-project.html"></link>
+    <author>
+      <name>猫叔</name>
+    </author>
+  </entry>
+  <entry>
+    <title>优秀的独立或实验性动画短片推荐</title>
+    <updated>2015-06-29T20:00:00+08:00</updated>
+    <id>tag:www.inkpaper.io,2015-06-29:/blog/animated-short-film.html</id>
+    <content type="html">&lt;p&gt;近几年关注过的动画短片推荐，这些动画短片是独立动画或一些实验性质作品，创作者不少是很有实力的年轻制作人&lt;/p&gt;&#xA;</content>
+    <link href="http://www.inkpaper.io/blog/animated-short-film.html"></link>
+    <author>
+      <name>猫叔</name>
+    </author>
+  </entry>
+  <entry>
+    <title>简洁的自动化任务构建工具</title>
+    <updated>2015-05-17T22:00:00+08:00</updated>
+    <id>tag:www.inkpaper.io,2015-05-17:/blog/golang-build-tool.html</id>
+    <content type="html">&lt;p&gt;Build是一个使用GO语言编写的自动化任务构建工具，可根据描述配置执行任务。类似于JavaScript中的Grunt与Gulp工具，但更加简单，不需要编写复杂的逻辑代码&lt;/p&gt;&#xA;</content>
+    <link href="http://www.inkpaper.io/blog/golang-build-tool.html"></link>
+    <author>
+      <name>猫叔</name>
+    </author>
+  </entry>
+  <entry>
+    <title>很久前的一些绘画临摹稿</title>
+    <updated>2016-08-15T10:00:00+08:00</updated>
+    <id>tag:www.inkpaper.io,2016-08-15:/blog/some-copied-paint.html</id>
+    <content type="html">&lt;p&gt;初中开始喜欢上画画，从画给同学看的火柴小人剪纸小故事本，到现在的软件绘画，看到流畅优雅的线稿总觉得好美，禁不住想要去临摹&lt;/p&gt;&#xA;</content>
+    <link href="http://www.inkpaper.io/blog/some-copied-paint.html"></link>
+    <author>
+      <name>猫叔</name>
+    </author>
+  </entry>
+  <entry>
+    <title>十一月日本国初行</title>
+    <updated>2015-03-27T22:00:00+08:00</updated>
+    <id>tag:www.inkpaper.io,2015-03-27:/blog/first-japan-travel.html</id>
+    <content type="html">&lt;p&gt;日本是我一直想去也是唯一特别想去的地方，这是个安静的，文化沿袭深厚的国家，更因为ACG宅的二次元情结，11区是绝对的巡礼圣地&lt;/p&gt;&#xA;</content>
+    <link href="http://www.inkpaper.io/blog/first-japan-travel.html"></link>
+    <author>
+      <name>猫叔</name>
+    </author>
+  </entry>
+  <entry>
+    <title>An Elegant Static Blog Generator —— InkPaper</title>
+    <updated>2016-07-13T10:00:00+08:00</updated>
+    <id>tag:www.inkpaper.io,2016-07-13:/blog/ink-blog-tool-en.html</id>
+    <content type="html">&lt;p&gt;InkPaper is an static blog generator developed by Golang, No dependencies, Cross platform, Easy use, Fast build, Elegant theme.&lt;/p&gt;&#xA;</content>
+    <link href="http://www.inkpaper.io/blog/ink-blog-tool-en.html"></link>
+    <author>
+      <name>猫叔</name>
+    </author>
+  </entry>
+</feed>
