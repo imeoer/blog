@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="猫叔的杂记 · 手帐">
+<meta name="twitter:description" content="代码，设计，与优雅实现">
+<meta name="twitter:image:src" content="http://www.inkpaper.io/blog/blog/images/avatar.jpg">
+
+<meta property="og:url" content="http://www.inkpaper.io/blog">
+<meta property="og:title" content="猫叔的杂记 · 手帐">
+<meta property="og:description" content="代码，设计，与优雅实现">
+<meta property="og:site_name" content="猫叔的杂记 · 手帐">
+<meta property="og:image" content="http://www.inkpaper.io/blog/blog/images/avatar.jpg">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="猫叔的杂记 · 手帐">
+<meta itemprop="description" content="代码，设计，与优雅实现">
+<meta itemprop="image" content="http://www.inkpaper.io/blog/blog/images/avatar.jpg">
+
+<link rel="canonical" href="http://www.inkpaper.io/blog">
+
+<link rel="shortcut icon" href="/blog/favicon.png">
+<link rel="apple-itouch-icon" href="/blog/favicon.png">
+<link rel="stylesheet" href="/blog/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '\/blog';
+</script>
+
+
+        <meta name="keywords" content="开发,GO语言,">
+        <meta name="description" content="简洁的自动化任务构建工具">
+        <meta name="author" content="猫叔">
+        <title>简洁的自动化任务构建工具</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap">
+  <a class="index" href="/blog/">
+    <img class="logo" src="/blog/images/avatar.jpg" />
+    猫叔的杂记 · 手帐
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/blog/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/blog/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/blog/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title">简洁的自动化任务构建工具</h1>
+                <section class="info">
+                    <span class="avatar" style="background-image: url(/blog/images/avatar.jpg);"></span>
+                    <a class="name" href="/blog/about.me.html">猫叔</a>
+                    
+                    <span class="date" data-time="1431871200"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/blog/tag/%e5%bc%80%e5%8f%91/index.html">开发</a><a class="tag" href="/blog/tag/GO%e8%af%ad%e8%a8%80/index.html">GO语言</a></span>
+                </section>
+                <article class="content"><h2>简介</h2>
+
+<p>Build是一个使用GO语言编写的自动化任务构建工具，可根据描述配置执行任务。类似于JavaScript中的Grunt与Gulp工具，但更加简单，不需要编写复杂的逻辑代码。</p>
+
+<h2>简单示例</h2>
+
+<p>以下例子描述了当web目录(/path/web)下任意.go文件发生变化时，自动执行名为build的任务，即切换到web目录下执行&rdquo;go build&rdquo;命令。</p>
+
+<pre><code class="language-yaml">variable:
+    web: &quot;/path/web&quot;
+task:
+    build:
+        - &quot;cd ${web} &amp;&amp; go build&quot;
+watch:
+    ${web}/*.go: &quot;${build}&quot;
+</code></pre>
+
+<h2>介绍</h2>
+
+<p>Build使用YAML格式的配置文件来描述任务，分为<strong>变量</strong>(variable)，<strong>任务</strong>(task)，<strong>监控</strong>(watch)三个字段。</p>
+
+<h3>变量(variable)</h3>
+
+<p>变量定义了需要在任务或监控字段中可替换的字符串，变量中也可引用其他变量。</p>
+
+<h3>任务(task)</h3>
+
+<p>任务是按顺序执行的Shell命令，或引用的其他任务。若在引用的任务名前加<code>#</code>，表示该任务是非阻塞的，Build不会等待该任务完成，而是继续执行后面的任务。</p>
+
+<h3>监控(watch)</h3>
+
+<p>当任意文件发生变化时，执行任务中定义的任务，其中可以引用变量。</p>
+
+<h2>复杂示例</h2>
+
+<p>定义了两个变量，其中path1是/a/b，path2则是/a/b/c</p>
+
+<p>定义了三个任务，其中default是默认任务，<code>build</code>命令会执行该任务，而<code>build develop</code>与<code>build commit</code>命令则分别执行develop与commit任务。default任务中，会并发执行develop与commit任务</p>
+
+<p>定义了一个监控，当/a/b/c/*.go文件发生变化时，执行develop任务</p>
+
+<pre><code class="language-yaml">variable:
+    path1: &quot;/a/b&quot;
+    path2: &quot;${path1}/c&quot;
+task:
+    default:
+        - &quot;${#develop}&quot;
+        - &quot;${commit}&quot;
+    develop:
+        - &quot;cd ${path1} &amp;&amp; go build&quot;
+        - &quot;${path1}/program&quot;
+    commit:
+        - &quot;cd ${path1} &amp;&amp; git push origin&quot;
+watch:
+    ${path1}/*.go: &quot;${develop}&quot;
+</code></pre>
+
+<h2>使用命令</h2>
+
+<pre><code class="language-shell">build [-c build.yml] [-s] [-k] [task name]
+</code></pre>
+
+<p><code>-c</code>指定配置文件目录，若不指定，则使用当前目录的build.yml</p>
+
+<p><code>-s</code>指定在执行任务时，不输出日志</p>
+
+<p><code>-k</code>指定在监控到文件变化后，不清空输出的日志</p>
+
+<p>最后指定任务名称，若不指定将执行default任务</p>
+
+<h2>源码</h2>
+
+<p><a href="https://github.com/InkProject/build.go">https://github.com/InkProject/build.go</a></p>
+
+<p>Clone代码后，使用<code>go build build.go</code>命令编译，获得名为<code>build</code>的可执行文件</p>
+</article>
+                <section class="author">
+                    <div class="avatar" style="background-image: url(/blog/images/avatar.jpg);"></div>
+                    <a class="name" href="/blog/about.me.html">猫叔</a>
+                    <div class="intro">程序员，关注设计与二次元</div>
+                </section>
+                <section class="recommend">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/blog/animated-short-film.html">优秀的独立或实验性动画短片推荐</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/blog/some-copied-paint.html">很久前的一些绘画临摹稿</a>
+                    </section>
+                    
+                </section>
+                
+    <section id="disqus_thread"></section>
+    <script type="text/javascript">
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//imeoer.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+            </article>
+        </article>
+        <footer class="footer">
+    <span class="copyright">
+        猫叔的杂记 · 手帐 ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/blog/bundle/index.js"></script>
+    </body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1">
+<meta name="renderer" content="webkit">
+<meta name="google" value="notranslate">
+<meta name="robots" content="index,follow">
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="猫叔的杂记 · 手帐">
+<meta name="twitter:description" content="代码，设计，与优雅实现">
+<meta name="twitter:image:src" content="http://www.inkpaper.io/blog/blog/images/avatar.jpg">
+
+<meta property="og:url" content="http://www.inkpaper.io/blog">
+<meta property="og:title" content="猫叔的杂记 · 手帐">
+<meta property="og:description" content="代码，设计，与优雅实现">
+<meta property="og:site_name" content="猫叔的杂记 · 手帐">
+<meta property="og:image" content="http://www.inkpaper.io/blog/blog/images/avatar.jpg">
+<meta property="og:type" content="website">
+<meta name="robots" content="noodp">
+
+<meta itemprop="name" content="猫叔的杂记 · 手帐">
+<meta itemprop="description" content="代码，设计，与优雅实现">
+<meta itemprop="image" content="http://www.inkpaper.io/blog/blog/images/avatar.jpg">
+
+<link rel="canonical" href="http://www.inkpaper.io/blog">
+
+<link rel="shortcut icon" href="/blog/favicon.png">
+<link rel="apple-itouch-icon" href="/blog/favicon.png">
+<link rel="stylesheet" href="/blog/bundle/index.css">
+<script type="text/javascript">
+    var timeSinceLang = {
+        year: '年前',
+        month: '个月前',
+        day: '天前',
+        hour: '小时前',
+        minute: '分钟前',
+        second: '秒前'
+    };
+    var root = '\/blog';
+</script>
+
+
+        <meta name="keywords" content="JavaScript,读书,">
+        <meta name="description" content="读书笔记 - 《Understanding ECMAScript 6》">
+        <meta name="author" content="猫叔">
+        <title>读书笔记 - 《Understanding ECMAScript 6》</title>
+    </head>
+    <body>
+        <article class="container">
+            <header class="header-wrap">
+  <a class="index" href="/blog/">
+    <img class="logo" src="/blog/images/avatar.jpg" />
+    猫叔的杂记 · 手帐
+  </a>
+  <ul class="menu">
+      <li class="menu-item"><a href="/blog/archive.html">归档</a></li>
+      <li class="menu-item"><a href="/blog/tag.html">标签</a></li>
+      <li class="menu-item"><a href="/blog/atom.xml">订阅</a></li>
+  </ul>
+</header>
+
+            <article class="main article">
+                <h1 class="title">读书笔记 - 《Understanding ECMAScript 6》</h1>
+                <section class="info">
+                    <span class="avatar" style="background-image: url(/blog/images/avatar.jpg);"></span>
+                    <a class="name" href="/blog/about.me.html">猫叔</a>
+                    
+                    <span class="date" data-time="1442541600"><span class="from"></span></span>
+                    
+                    <span class="tags"><a class="tag" href="/blog/tag/JavaScript/index.html">JavaScript</a><a class="tag" href="/blog/tag/%e8%af%bb%e4%b9%a6/index.html">读书</a></span>
+                </section>
+                <article class="content"><p>《Understanding ECMAScript 6》是一本在<a href="https://leanpub.com/understandinges6/read">Leanpub</a>发售的开源电子书，较为详细的介绍了ES5的一些不足与在ES6中的改进以及新特性，计划慢慢读完这本书，在这里做一些笔记。</p>
+
+<h1>基础部分</h1>
+
+<h2>更好的Unicode支持</h2>
+
+<p>这里有一篇阮一峰关于JS中Unicode的<a href="http://www.ruanyifeng.com/blog/2014/12/unicode.html">基础介绍</a>。在ES5中，字符串中每一个字符由16位编码表示，即每个字符占用2个字节，这导致一些超过该16位编码范围的字符占用4个字节来表示，因此当字符串包含这些字符时，长度与位置计算会产生偏差：</p>
+
+<pre><code class="language-javascript">var text = &quot;𠮷a&quot;; //𠮷字超过16位编码
+// ES5
+text.length; // 3
+text.charCodeAt(0); // 55362
+text.charCodeAt(1); // 57271
+text.charCodeAt(2); // 97
+text.charAt(0); // &quot;&quot;
+&quot;\u20BB7&quot;; // &quot;7&quot;， 被拆开为\u20BB与\u7，其中\u20BB不可打印
+// ES6
+Array.from(text).length; // 2
+text.codePointAt(0); // 134071
+text.codePointAt(1); // 57271
+text.codePointAt(2); // 97
+text.at(0); // &quot;𠮷&quot;
+String.fromCodePoint(134071); // &quot;𠮷&quot;
+&quot;\u{20BB7}&quot;; // &quot;𠮷&quot;
+</code></pre>
+
+<p>这个字符在Unicode中有两种表示方法，<code>'\u01D1'</code>与<code>'\u004F\u030C'</code>，分别为单一与复合表示方法，虽然表示同一字符，但在ES5中并不相等，ES6中的normalize()函数用于将该类字符正规化：</p>
+
+<pre><code class="language-javascript">// ES5
+'\u01D1'==='\u004F\u030C' // false
+// ES6
+'\u01D1'.normalize() === '\u004F\u030C'.normalize(); // true
+</code></pre>
+
+<h2>正则表达式的改进</h2>
+
+<p>新增正则对象初始化方式</p>
+
+<pre><code class="language-javascript">// ES5
+new RegExp('a', 'i'); // 只可用string初始化
+// ES6
+new RegExp(/a/i).flags; // 'i', 可用正则对象初始化，新增flags属性
+</code></pre>
+
+<p>新增u标识符用于更好的Unicode支持</p>
+
+<pre><code class="language-javascript">var text = &quot;𠮷&quot;;
+// ES5
+/^.$/.test(text); // false
+// ES6
+/^.$/u.test(text); // true，支持u标识符，可以正确匹配4字节的字符
+</code></pre>
+
+<p>新增的y标识符用于在每次匹配时都从开始位置匹配</p>
+
+<pre><code class="language-javascript">var text = &quot;aaa_aa_a&quot;;
+// ES5
+var r1 = /a+/g;
+r1.exec(text); // [&quot;aaa&quot;]
+r1.exec(text); // [&quot;aa&quot;]
+// ES6
+var r2 = /a+/y;
+r2.exec(text); // [&quot;aaa&quot;]
+r2.exec(text); // null
+r2.sticky; // true
+</code></pre>
+
+<h2>新增的字符串函数</h2>
+
+<pre><code class="language-javascript">var msg = &quot;Hello&quot;;
+msg.startsWith(&quot;He&quot;); // true
+msg.endsWith(&quot;o&quot;); // true
+msg.includes(&quot;ll&quot;); // true
+msg.repeat(3); // &quot;HelloHelloHello&quot;
+</code></pre>
+
+<h2>Object.is</h2>
+
+<p>更加严格的值比较方法：</p>
+
+<pre><code class="language-javascript">+0 === -0; // true
+NaN === NaN; // false
+
+Object.is(+0, -0); // false
+Object.is(NaN, NaN); // true
+</code></pre>
+
+<h2>Let声明</h2>
+
+<p>JS中没有块作用域，且由于变量提升(hoisted)问题，在块中声明的变量会被提升到函数顶部，即在该函数内块中声明变量可以在整个函数中被访问到：</p>
+
+<pre><code class="language-javascript">function getValue(condition) {
+    if (condition) {
+        var value = &quot;blue&quot;;
+        return value;
+    } else {
+        return null;
+    }
+}
+</code></pre>
+
+<p>实际会被解释为：</p>
+
+<pre><code class="language-javascript">function getValue(condition) {
+    var value;
+    if (condition) {
+        value = &quot;blue&quot;;
+        return value;
+    } else {
+        return null;
+    }
+}
+</code></pre>
+
+<p>JS新增let声明方式，限制变量只能在块级范围内使用：</p>
+
+<pre><code class="language-javascript">function getValue(condition) {
+    if (condition) {
+        let value = &quot;blue&quot;; // 只在该if条件下能被访问
+        return value;
+    } else {
+        return null;
+    }
+}
+</code></pre>
+
+<p>由于let的特性，之前为了解决循环时因共享变量问题使用的闭包方式：</p>
+
+<pre><code class="language-javascript">var funcs = [];
+for (var i=0; i &lt; 10; i++) {
+    funcs.push((function(value) {
+        return function() {
+            console.log(value);
+        }
+    }(i)));
+}
+funcs.forEach(function(func) {
+    func();
+});
+</code></pre>
+
+<p>可以改为：</p>
+
+<pre><code class="language-javascript">var funcs = [];
+for (let i=0; i &lt; 10; i++) {
+    funcs.push(function() { console.log(i); });
+}
+funcs.forEach(function(func) {
+    func();
+})
+</code></pre>
+
+<blockquote>
+<p>好吧，表示细节好多，先读一遍阮一峰的《ECMAScript 6入门》 <em>(:з」∠)</em></p>
+</blockquote>
+</article>
+                <section class="author">
+                    <div class="avatar" style="background-image: url(/blog/images/avatar.jpg);"></div>
+                    <a class="name" href="/blog/about.me.html">猫叔</a>
+                    <div class="intro">程序员，关注设计与二次元</div>
+                </section>
+                <section class="recommend">
+                    
+                    <section class="nav prev more">
+                        <div class="head">上篇文章</div>
+                        <a class="link" href="/blog/linux-android-adb.html">Linux下的Android刷机</a>
+                    </section>
+                    
+                    
+                    <section class="nav next more">
+                        <div class="head">下篇文章</div>
+                        <a class="link" href="/blog/inkpaper-project.html">一个写作与阅读平台的设计，初版纸小墨</a>
+                    </section>
+                    
+                </section>
+                
+    <section id="disqus_thread"></section>
+    <script type="text/javascript">
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//imeoer.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+
+
+            </article>
+        </article>
+        <footer class="footer">
+    <span class="copyright">
+        猫叔的杂记 · 手帐 ©
+        <script type="text/javascript">
+            document.write(new Date().getFullYear());
+        </script>
+    </span>
+    <span class="publish">Powered by <a href="http://www.chole.io/" target="_blank">Ink</a></span>
+</footer>
+
+        <script src="/blog/bundle/index.js"></script>
+    </body>
+</html>
